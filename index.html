@@ -17,11 +17,36 @@
 					}, function(err) {console.log('SW registration failed: ', err);});
 			});
 		}
+		var beforeinstallprompt;
+		window.addEventListener('beforeinstallprompt', (e) => {
+			beforeinstallprompt = e;
+			document.getElementById("installtile").style.display = ""
+		});
+		function activate_beforeinstallprompt() {
+			beforeinstallprompt.prompt();
+			document.getElementById("installtile").style.display = "none"
+		}
 	</script>
 </head>
+<style>
+	.tiles li {display: inline-block; padding:1em; width: 150px; border:0.2em solid black; margin: 1em}
+	img {display: block; margin: auto;}
+</style>
 <body>
+<ul class="tiles">
+<li>
+<a href=./js_synth>
+<img alt="piano" src="piano_icon.png" title="piano" alt="piano"><br>Javascript Synthesizer
+</a></li>
+<li id="installtile" style="display: none">
+<a onclick="activate_beforeinstallprompt();" href="#">
+<img alt="install" src="install.png" title="install" alt="install"><br>Save this page to the homescreen
+</a>
+</ll>
+<li>
+<img alt="more" src="more.png" title="more" alt="more"><br>More items coming soon!
+</ll>
+</ul>
 
-	<a href=./js_synth>
-	<img alt="piano" src="piano_icon.png" title="piano" alt="piano"><br>Javascript Synthesizer</a>
 </body>
 </html>

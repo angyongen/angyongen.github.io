@@ -8,7 +8,18 @@
 	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 	<meta name="msapplication-TileColor" content="#00aba9">
 	<meta name="theme-color" content="#7900ff">
+	<script>
+		if ('serviceWorker' in navigator) {
+			window.addEventListener('load', function() {
+				navigator.serviceWorker.register('/sw.js').then(
+					function(registration) {
+						console.log('SW registration successful, scope=', registration.scope);
+					}, function(err) {console.log('SW registration failed: ', err);});
+			});
+		}
+	</script>
 </head>
 <body>
+	<a href=./js_synth>Javascript Synthesizer</a>
 </body>
 </html>

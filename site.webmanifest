@@ -1,7 +1,7 @@
 {
     "name": "angyongen's web app",
     "short_name": "angyongen's web app",
-    "start_url": "/"
+    "start_url": "/",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",

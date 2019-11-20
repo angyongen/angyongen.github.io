@@ -1,5 +1,5 @@
 var CACHE_NAME = 'my-site-cache-v1';
-var urlsToCache = ['/','/js_synth'];
+var urlsToCache = ['/','/piano_icon.png','/more.png','/install.png','/js_synth'];
 
 self.addEventListener('install', function(event) {
   // Perform install steps

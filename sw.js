@@ -1,4 +1,5 @@
-var CACHE_NAME = 'my-site-cache-v1';
+var FETCH_CACHE = 'my-site-cache-v2';
+var cacheWhitelist = ['my-site-cache-v2'];//['pages-cache-v1', 'blog-posts-cache-v1'];
 var urlsToCache = ['/','/piano_icon.png','/more.png','/install.png','/js_synth'];
 
 self.addEventListener('install', function(event) {
@@ -33,7 +34,7 @@ self.addEventListener('fetch', function(event) {
             // to clone it so we have two streams.
             var responseToCache = response.clone();
 
-            caches.open(CACHE_NAME)
+            caches.open(FETCH_CACHE)
               .then(function(cache) {
                 cache.put(event.request, responseToCache);
               });
@@ -45,9 +46,6 @@ self.addEventListener('fetch', function(event) {
     );
 });
 self.addEventListener('activate', function(event) {
-
-  var cacheWhitelist = ['my-site-cache-v1'];//['pages-cache-v1', 'blog-posts-cache-v1'];
-
   event.waitUntil(
     caches.keys().then(function(cacheNames) {
       return Promise.all(

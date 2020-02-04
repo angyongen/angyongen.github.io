@@ -31,35 +31,37 @@
 		}
 	</script>
 	<style>
-		.tiles li {display: inline-block; padding:1em; width: 150px; border:0.2em solid black; margin: 1em; text-align: center; vertical-align: top}
+		body {text-align: center;}
+		center {font-family: Calibri; }
+		.tiles {display: inline-block;}
+		.tiles>* {display: inline-flex; flex-direction: column; justify-content: space-between; padding:1em; width: 150px; height: 160px; border:0.2em solid black; margin: 1em; vertical-align: bottom;}
+
 		img {display: block; margin: auto;}
 	</style>
 </head>
 <body>
-<ul class="tiles">
+	<section class="tiles">
 
-<li>
-<a href=./js_synth/>
-<img alt="piano" src="piano_icon.png" title="piano"><br>Javascript Synthesizer
-</a>
-</li>
+			<a href=./js_synth/>
+			<img alt="piano" src="piano_icon.png" title="piano">
+			<center>Javascript Synthesizer</center>
+			</a>
 
-<li>
-<a href=./SG-Bus-Arrival-Time/>
-<img alt="bus" src="bus_icon.png" title="bus"><br>Singapore Bus Arrival Time
-</a></li>
+			<a href=./SG-Bus-Arrival-Time/>
+			<img alt="bus" src="bus_icon.png" title="bus">
+			<center>Singapore Bus Arrival Time</center>
+			</a>
 
-<li id="installtile" style="display: none">
-<a onclick="activate_beforeinstallprompt();" href="#">
-<img alt="install" src="install.png" title="install"><br>Save this page to the homescreen
-</a>
-</li>
+			<a id="installtile" style="display: none" onclick="activate_beforeinstallprompt();" href="#">
+			<img alt="install" src="install.png" title="install">
+			<center>Save this page to the homescreen</center>
+			</a>
 
-<li>
-<img alt="more" src="more.png" title="more"><br>More items coming soon!
-</li>
+			<a>
+			<img alt="more" src="more.png" title="more">
+			<center>More items coming soon!</center>
+			</a>
 
-</ul>
-
+	</section>
 </body>
 </html>

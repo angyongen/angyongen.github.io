@@ -32,36 +32,43 @@
 	</script>
 	<style>
 		body {text-align: center;}
-		center {font-family: Calibri; }
 		.tiles {display: inline-block;}
-		.tiles>* {display: inline-flex; flex-direction: column; justify-content: space-between; padding:1em; width: 150px; height: 160px; border:0.2em solid black; margin: 1em; vertical-align: bottom;}
-
+		.tiles>* {
+			display: inline-flex;
+			flex-direction: column;
+			justify-content: space-between;
+			padding:1em;
+			width: 150px;
+			height: 160px;
+			border:0.2em solid black;
+			margin: 1em;
+			vertical-align: bottom;
+		}
 		img {display: block; margin: auto;}
+		center {font-family: Calibri; }
 	</style>
 </head>
 <body>
 	<section class="tiles">
-
-			<a href=./js_synth/>
+		<a href=./js_synth/>
 			<img alt="piano" src="piano_icon.png" title="piano">
 			<center>Javascript Synthesizer</center>
-			</a>
+		</a>
 
-			<a href=./SG-Bus-Arrival-Time/>
+		<a href=./SG-Bus-Arrival-Time/>
 			<img alt="bus" src="bus_icon.png" title="bus">
 			<center>Singapore Bus Arrival Time</center>
-			</a>
+		</a>
 
-			<a id="installtile" style="display: none" onclick="activate_beforeinstallprompt();" href="#">
+		<a id="installtile" style="display: none" onclick="activate_beforeinstallprompt();" href="#">
 			<img alt="install" src="install.png" title="install">
 			<center>Save this page to the homescreen</center>
-			</a>
+		</a>
 
-			<a>
+		<a>
 			<img alt="more" src="more.png" title="more">
 			<center>More items coming soon!</center>
-			</a>
-
+		</a>
 	</section>
 </body>
 </html>

@@ -5,7 +5,7 @@ var urlsToCache = ['/','/piano_icon.png','/more.png','/install.png','/js_synth']
 self.addEventListener('install', function(event) {
   // Perform install steps
   event.waitUntil(
-    caches.open(CACHE_NAME)
+    caches.open(FETCH_CACHE)
       .then(function(cache) {
         console.log('Opened cache');
         return cache.addAll(urlsToCache);

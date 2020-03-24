@@ -5,6 +5,13 @@ Go to the page at https://angyongen.github.io
 I would use [editor on GitHub](https://github.com/angyongen/angyongen.github.io/edit/master/README.md) to maintain and preview the content.
 Normally, whenever you commit to GitHub Pages repositories, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages from the content in your Markdown files. However, this repository index.html, I do not think Jekyll is being used here. 
 
+## The other repositories with Github Pages enabled
+
+-https://github.com/angyongen/js_synth
+-https://github.com/angyongen/js_scoremaker
+-https://github.com/angyongen/SG-Bus-Arrival-Time
+-https://github.com/angyongen/Bingo-Generator
+
 ### Markdown
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for

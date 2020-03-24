@@ -7,10 +7,10 @@ Normally, whenever you commit to GitHub Pages repositories, GitHub Pages will ru
 
 ## The other repositories with Github Pages enabled
 
--https://github.com/angyongen/js_synth
--https://github.com/angyongen/js_scoremaker
--https://github.com/angyongen/SG-Bus-Arrival-Time
--https://github.com/angyongen/Bingo-Generator
+- https://github.com/angyongen/js_synth
+- https://github.com/angyongen/js_scoremaker
+- https://github.com/angyongen/SG-Bus-Arrival-Time
+- https://github.com/angyongen/Bingo-Generator
 
 ### Markdown
 

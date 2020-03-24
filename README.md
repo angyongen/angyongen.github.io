@@ -1,8 +1,9 @@
-## Welcome to GitHub Pages
+Go to the page at https://angyongen.github.io
 
-You can use the [editor on GitHub](https://github.com/angyongen/angyongen.github.io/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+## Welcome to my GitHub Pages
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+I would use [editor on GitHub](https://github.com/angyongen/angyongen.github.io/edit/master/README.md) to maintain and preview the content.
+Normally, whenever you commit to GitHub Pages repositories, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages from the content in your Markdown files. However, this repository index.html, I do not think Jekyll is being used here. 
 
 ### Markdown
 

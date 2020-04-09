@@ -12,24 +12,22 @@ var lastVersionCheck;
 
 function clearOldCaches() { //returns promise
   caches.keys().then(function(cacheNames) {
-    return Promise.all( //finish when all done
-      cacheNames.map(function(cacheName) {
-        if (cacheWhitelist.indexOf(cacheName) === -1) return caches.delete(cacheName);
-      })
-    );
-  })
+    return Promise.all(cacheNames.map(function(cacheName) {//finish when all done
+      if (cacheWhitelist.indexOf(cacheName) === -1) return caches.delete(cacheName);
+    }));
+  });
 }
 
 async function getLatestCacheInfo() {
   if (lastVersionCheck && (new Date - lastVersionCheck) < 10000) return {version:version, extraUrlsToCache:extraUrlsToCache};
   lastVersionCheck = new Date;
-  var response = await fetch('/cache.txt?time=' + lastVersionCheck.getTime())//prevent disk cache
+  var response = await fetch('/cache.txt?time=' + lastVersionCheck.getTime());//prevent disk cache
   if (response.ok) {
-    var json = await response.json()
+    var json = await response.json();
     return {
       version: parseInt(json.version),
       extraUrlsToCache: response.extraUrlsToCache
-    }
+    };
   }
 }
 
@@ -69,9 +67,8 @@ self.addEventListener('fetch', function(event) {
         caches.open(FETCH_CACHE).then(function(cache) {cache.put(event.request, responseToCache);});
         return response;
       });
-    })
-    
-  }))
+    });
+  }));
 });
 
 self.addEventListener('activate', function(event) {

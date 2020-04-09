@@ -28,8 +28,8 @@ async function getLatestCacheInfo() {
     var newurls = response.extraUrlsToCache;
     console.log("latestInfo", json)
     return {
-      version: newversion?newversion:version,
-      extraUrlsToCache: newurls?newurls:extraUrlsToCache
+      version: (newversion?newversion:version),
+      extraUrlsToCache: (newurls?newurls:extraUrlsToCache)
     };
   }
 }

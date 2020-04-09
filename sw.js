@@ -1,6 +1,43 @@
-var FETCH_CACHE = 'my-site-cache-v2.8';
-var cacheWhitelist = ['my-site-cache-v2.8'];//['pages-cache-v1', 'blog-posts-cache-v1'];
+var FETCH_CACHE = 'ag-cache-default';
+var cacheWhitelist = ['ag-cache-default'];//['pages-cache-v1', 'blog-posts-cache-v1'];
 var urlsToCache = ['/'];//,'/piano_icon.png','/more.png','/install.png','/js_synth'];
+var lastVersionCheck = new Date();
+function clearOldCaches() {
+  caches.keys().then(function(cacheNames) {
+    return Promise.all(
+      cacheNames.map(function(cacheName) {
+        if (cacheWhitelist.indexOf(cacheName) === -1) {
+          return caches.delete(cacheName);
+        }
+      })
+    );
+  })
+}
+
+function checkVersion() {
+  var tmp_lastVersionCheck = lastVersionCheck;
+  lastVersionCheck = new Date;
+  var diff = lastVersionCheck - tmp_lastVersionCheck;
+  if (diff > 60000) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "/cachewhitelist.txt", true);
+    xhr.onload = function (e) {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+
+          console.log(xhr.responseText);
+        } else {
+          console.error(xhr.statusText);
+        }
+      }
+    };
+    xhr.onerror = function (e) {
+      console.error(xhr.statusText);
+    };
+    xhr.send(null); 
+  }
+  
+}
 
 self.addEventListener('install', function(event) {
   // Perform install steps
@@ -13,6 +50,7 @@ self.addEventListener('install', function(event) {
   );
 });
 self.addEventListener('fetch', function(event) {
+  checkVersion();
   event.respondWith(
     caches.match(event.request)
       .then(function(response) {
@@ -45,18 +83,9 @@ self.addEventListener('fetch', function(event) {
       })
     );
 });
+
 self.addEventListener('activate', function(event) {
-  event.waitUntil(
-    caches.keys().then(function(cacheNames) {
-      return Promise.all(
-        cacheNames.map(function(cacheName) {
-          if (cacheWhitelist.indexOf(cacheName) === -1) {
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    })
-  );
+  event.waitUntil(clearOldCaches());
 });
 self.addEventListener('activate', event => {
   event.waitUntil(clients.claim());

@@ -37,7 +37,7 @@ function updateToLatestVersion() { //returns promise
   return getLatestCacheInfo().then(function(data) {
     if (version != data.version) {
       console.log('New version found, updating...');
-      version = currentversion;
+      version = data.version;
       updateCacheNames();
       clearOldCaches();
       extraUrlsToCache = data.extraUrlsToCache

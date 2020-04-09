@@ -48,7 +48,7 @@ self.addEventListener('install', function(event) {
   );
 });
 self.addEventListener('fetch', function(event) {
-  getCurrentVersion.then((currentversion) => {
+  getCurrentVersion().then((currentversion) => {
     if (version != currentversion) {
       console.log('New version found, updating...');
       version = currentversion;

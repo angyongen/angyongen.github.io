@@ -26,6 +26,7 @@ async function getLatestCacheInfo() {
     var json = await response.json();
     var newversion = parseInt(json.version);
     var newurls = response.extraUrlsToCache;
+    console.log("latestInfo", json)
     return {
       version: newversion?newversion:version,
       extraUrlsToCache: newurls?newurls:extraUrlsToCache
@@ -37,7 +38,7 @@ function updateToLatestVersion() { //returns promise
   return getLatestCacheInfo().then(function(data) {
     try {
       if (version != data.version) {
-        console.log('New version found, updating...', data);
+        console.log('New version found, updating...');
         version = data.version;
         updateCacheNames();
         clearOldCaches();

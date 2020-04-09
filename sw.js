@@ -3,7 +3,7 @@ var cacheWhitelist = ['ag-cache-default'];//['pages-cache-v1', 'blog-posts-cache
 var urlsToCache = ['/'];//,'/piano_icon.png','/more.png','/install.png','/js_synth'];
 var lastVersionCheck = new Date();
 function clearOldCaches() {
-  caches.keys().then(function(cacheNames) {
+  return caches.keys().then(function(cacheNames) {
     return Promise.all(
       cacheNames.map(function(cacheName) {
         if (cacheWhitelist.indexOf(cacheName) === -1) {
@@ -19,6 +19,7 @@ function checkVersion() {
   lastVersionCheck = new Date;
   var diff = lastVersionCheck - tmp_lastVersionCheck;
   if (diff > 60000) {
+    console.log('Checking version...');
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "/cachewhitelist.txt", true);
     xhr.onload = function (e) {
@@ -89,4 +90,7 @@ self.addEventListener('activate', function(event) {
 });
 self.addEventListener('activate', event => {
   event.waitUntil(clients.claim());
+});
+self.addEventListener('activate', function(event) {
+  console.log('SW activated');
 });

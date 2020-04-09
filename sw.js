@@ -1,6 +1,6 @@
 var FETCH_CACHE = 'my-site-cache-v2.7';
 var cacheWhitelist = ['my-site-cache-v2.7'];//['pages-cache-v1', 'blog-posts-cache-v1'];
-var urlsToCache = ['/','/piano_icon.png','/more.png','/install.png','/js_synth'];
+var urlsToCache = ['/'];//,'/piano_icon.png','/more.png','/install.png','/js_synth'];
 
 self.addEventListener('install', function(event) {
   // Perform install steps

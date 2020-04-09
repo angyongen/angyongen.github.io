@@ -1,9 +1,9 @@
-var version = 0;
+var version = 1;
 var FETCH_CACHE;
 var cacheWhitelist;
 function updateCacheNames() {
   FETCH_CACHE = 'ag-cache-v' + version;
-  cacheWhitelist = ['ag-cache-v' + version];//['pages-cache-v1', 'blog-posts-cache-v1'];
+  cacheWhitelist = [version, 'ag-cache-v' + version];//['pages-cache-v1', 'blog-posts-cache-v1'];
 }
 updateCacheNames();
 var urlsToCache = ['/'];//,'/piano_icon.png','/more.png','/install.png','/js_synth'];
@@ -27,21 +27,13 @@ function clearOldCaches() {
 }
 
 
-function checkVersion() {
-  if (lastVersionCheck && (new Date - lastVersionCheck) < 60000) return;
-  forceCheckVersion().then((response) => {
-    if (response.ok) {
-      response.json().then((json) => {
-        var currentversion = parseInt(json.version)
-        if (version != currentversion) {
-          console.log('New version found, updating...');
-          version = currentversion;
-          updateCacheNames();
-          clearOldCaches();
-        }
-      })
-    }
-  })
+async function getCurrentVersion() {
+  if (lastVersionCheck && (new Date - lastVersionCheck) < 60000) return version;
+  var response = await forceCheckVersion()
+  if (response.ok) {
+    var json = await response.json()
+    return parseInt(json.version)
+  }
 }
 
 self.addEventListener('install', function(event) {
@@ -56,8 +48,14 @@ self.addEventListener('install', function(event) {
   );
 });
 self.addEventListener('fetch', function(event) {
-  checkVersion();
-  event.respondWith(
+  getCurrentVersion.then((currentversion) => {
+    if (version != currentversion) {
+      console.log('New version found, updating...');
+      version = currentversion;
+      updateCacheNames();
+      clearOldCaches();
+    }
+    event.respondWith(
     caches.match(event.request)
       .then(function(response) {
         // Cache hit - return response
@@ -88,6 +86,7 @@ self.addEventListener('fetch', function(event) {
         );
       })
     );
+  })
 });
 
 self.addEventListener('activate', function(event) {

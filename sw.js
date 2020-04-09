@@ -15,6 +15,7 @@ function clearOldCaches() {
 }
 
 function forceCheckVersion() {
+    lastVersionCheck = new Date;
     console.log('Checking version...');
     fetch('/cachewhitelist.txt')
     .then((response) => {
@@ -27,14 +28,9 @@ function forceCheckVersion() {
 }
 
 function checkVersion() {
-    console.log('test');
   if (lastVersionCheck) {
-    var tmp_lastVersionCheck = lastVersionCheck;
-    lastVersionCheck = new Date;
-    var diff = lastVersionCheck - tmp_lastVersionCheck;
-    if (diff > 60000) {forceCheckVersion();}
+    if ((new Date - lastVersionCheck) > 60000) {forceCheckVersion();}
   } else {
-    lastVersionCheck = new Date;
     forceCheckVersion();
   }
 }

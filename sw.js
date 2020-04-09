@@ -19,14 +19,16 @@ function clearOldCaches() { //returns promise
 }
 
 async function getLatestCacheInfo() {
-  if (lastVersionCheck && (new Date - lastVersionCheck) < 10000) return {version:version, extraUrlsToCache:extraUrlsToCache};
+  if (lastVersionCheck && (new Date - lastVersionCheck) < 30000) return {version:version, extraUrlsToCache:extraUrlsToCache};
   lastVersionCheck = new Date;
   var response = await fetch('/cache.txt?time=' + lastVersionCheck.getTime());//prevent disk cache
   if (response.ok) {
     var json = await response.json();
+    var newversion = parseInt(json.version);
+    var newurls = response.extraUrlsToCache;
     return {
-      version: parseInt(json.version),
-      extraUrlsToCache: response.extraUrlsToCache
+      version: newversion?newversion:version,
+      extraUrlsToCache: newurls?newurls:extraUrlsToCache
     };
   }
 }

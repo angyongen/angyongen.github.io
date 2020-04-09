@@ -31,12 +31,14 @@ function checkVersion() {
   if (lastVersionCheck && (new Date - lastVersionCheck) < 60000) return;
   forceCheckVersion().then((response) => {
     if (response.ok) {
-      var currentversion = parseInt(response.json().version)
-      if (version != currentversion) {
-        console.log('New version found, updating...');
-        version = currentversion;
-        updateCacheNames();
-      }
+      response.json().then((json) => {
+        var currentversion = parseInt(json.version)
+        if (version != currentversion) {
+          console.log('New version found, updating...');
+          version = currentversion;
+          updateCacheNames();
+        }
+      })
     }
   })
 }

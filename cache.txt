@@ -1,0 +1,20 @@
+{ "version":"2", "extraUrlsToCache" : [
+"/Bingo-Generator/",
+"/Bingo-Generator/bingo1.css",
+"/Bingo-Generator/elements.js",
+"/Bingo-Generator/generator.js",
+"/Bingo-Generator/test.js",
+"/Bingo-Generator/ui.js",
+"/js_scoremaker/analytics.js",
+"/js_scoremaker/index.html",
+"/js_scoremaker/mode2.css",
+"/js_scoremaker/mode2.js",
+"/js_scoremaker/script.js",
+"/js_synth/html5_audio.js",
+"/js_synth/index.html",
+"/js_synth/script.js",
+"/js_synth/settings.js",
+"/js_synth/sounds.js",
+"/js_synth/wav.js",
+"/js_synth/web_audio_api.js"]
+}

@@ -7,113 +7,73 @@ function updateCacheNames() {
 }
 updateCacheNames();
 var urlsToCache = [];//essential urls
-var extraUrlsToCache = [
-"/Bingo-Generator/",
-"/Bingo-Generator/bingo1.css",
-"/Bingo-Generator/elements.js",
-"/Bingo-Generator/generator.js",
-"/Bingo-Generator/test.js",
-"/Bingo-Generator/ui.js",
-"/js_scoremaker/analytics.js",
-"/js_scoremaker/index.html",
-"/js_scoremaker/mode2.css",
-"/js_scoremaker/mode2.js",
-"/js_scoremaker/script.js",
-"/js_synth/html5_audio.js",
-"/js_synth/index.html",
-"/js_synth/script.js",
-"/js_synth/settings.js",
-"/js_synth/sounds.js",
-"/js_synth/wav.js",
-"/js_synth/web_audio_api.js"];
+var extraUrlsToCache = [];
 var lastVersionCheck;
 
-function forceCheckVersion() {
-    lastVersionCheck = new Date;
-    return fetch('/cachewhitelist.txt?time=' + lastVersionCheck.getTime()) //prevent disk cache
-}
-
-function clearOldCaches() {
+function clearOldCaches() { //returns promise
   caches.keys().then(function(cacheNames) {
-    return Promise.all(
+    return Promise.all( //finish when all done
       cacheNames.map(function(cacheName) {
-        if (cacheWhitelist.indexOf(cacheName) === -1) {
-          return caches.delete(cacheName);
-        }
+        if (cacheWhitelist.indexOf(cacheName) === -1) return caches.delete(cacheName);
       })
     );
   })
 }
 
-
-async function getCurrentVersion() {
+async function getLatestCacheInfo() {
   if (lastVersionCheck && (new Date - lastVersionCheck) < 10000) return version;
-  var response = await forceCheckVersion()
+  lastVersionCheck = new Date;
+  var response = await fetch('/cache.txt?time=' + lastVersionCheck.getTime())//prevent disk cache
   if (response.ok) {
     var json = await response.json()
-    return parseInt(json.version)
+    return {
+      version: parseInt(json.version),
+      extraUrlsToCache: response.extraUrlsToCache
+    }
   }
 }
 
-self.addEventListener('install', function(event) {
-  self.skipWaiting();
-  // Perform install steps
-  event.waitUntil(
-    caches.open(FETCH_CACHE)
-      .then(function(cache) {
-        console.log('Opened cache for essential storage');
-        return cache.addAll(urlsToCache);
-      })
-  );
-  caches.open(FETCH_CACHE).then(function(cache) {
-        console.log('Opened cache for extra storage');
-        cache.addAll(extraUrlsToCache);
-      })
-});
-self.addEventListener('fetch', function(event) {
-  event.respondWith(getCurrentVersion().then(function(currentversion) {
-    if (version != currentversion) {
+function updateToLatestVersion() { //returns promise
+  return getLatestCacheInfo().then(function(data) {
+    if (version != data.version) {
       console.log('New version found, updating...');
       version = currentversion;
       updateCacheNames();
       clearOldCaches();
+      extraUrlsToCache = data.extraUrlsToCache
     }
-    return caches.match(event.request)
-      .then(function(response) {
-        // Cache hit - return response
-        if (response) {
-          return response;
-        }
+  });
+}
 
-        return fetch(event.request).then(
-          function(response) {
-            // Check if we received a valid response
-            if(!response || response.status !== 200 || response.type !== 'basic') {
-              return response;
-            }
+self.addEventListener('install', function(event) {
+  self.skipWaiting();
+  event.waitUntil(updateToLatestVersion().then(function() {
+    caches.open(FETCH_CACHE).then(function(cache) {cache.addAll(extraUrlsToCache);})
+    caches.open(FETCH_CACHE).then(function(cache) {return cache.addAll(urlsToCache);});
+  }));
+  
+});
 
-            // IMPORTANT: Clone the response. A response is a stream
-            // and because we want the browser to consume the response
-            // as well as the cache consuming the response, we need
-            // to clone it so we have two streams.
-            var responseToCache = response.clone();
+function cacheIfValid(response) { //returns promise
+  // Check if we received a valid response
+  if(!response || response.status !== 200 || response.type !== 'basic') return response;
+  // IMPORTANT: Clone the response. A response is a stream and because we want the browser to consume the response
+  // as well as the cache consuming the response, we need to clone it so we have two streams.
+  var responseToCache = response.clone();
+  caches.open(FETCH_CACHE).then(function(cache) {cache.put(event.request, responseToCache);});
+  return response;
+}
 
-            caches.open(FETCH_CACHE)
-              .then(function(cache) {
-                cache.put(event.request, responseToCache);
-              });
-
-            return response;
-          }
-        );
-      })
+self.addEventListener('fetch', function(event) {
+  event.respondWith(updateToLatestVersion().then(function() {
+    return caches.match(event.request).then(function(response) {
+      if (response) return response; // Cache hit - return response
+      return fetch(event.request).then(cacheIfValid);
+    })
     
   }))
 });
 
-self.addEventListener('activate', function(event) {
-  event.waitUntil(console.log('SW activated'));
-});
 self.addEventListener('activate', function(event) {
   event.waitUntil(clearOldCaches());
 });

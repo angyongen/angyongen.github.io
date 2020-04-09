@@ -42,6 +42,7 @@ function checkVersion() {
 }
 
 self.addEventListener('install', function(event) {
+  self.skipWaiting();
   // Perform install steps
   event.waitUntil(
     caches.open(FETCH_CACHE)

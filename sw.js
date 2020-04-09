@@ -48,15 +48,15 @@ self.addEventListener('install', function(event) {
   );
 });
 self.addEventListener('fetch', function(event) {
-  getCurrentVersion().then((currentversion) => {
+  event.respondWith(
+  getCurrentVersion().then(function(currentversion) {
     if (version != currentversion) {
       console.log('New version found, updating...');
       version = currentversion;
       updateCacheNames();
       clearOldCaches();
     }
-    event.respondWith(
-    caches.match(event.request)
+    return caches.match(event.request)
       .then(function(response) {
         // Cache hit - return response
         if (response) {
@@ -85,7 +85,7 @@ self.addEventListener('fetch', function(event) {
           }
         );
       })
-    );
+    
   })
 });
 

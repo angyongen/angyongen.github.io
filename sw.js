@@ -37,6 +37,7 @@ function checkVersion() {
           console.log('New version found, updating...');
           version = currentversion;
           updateCacheNames();
+          clearOldCaches();
         }
       })
     }

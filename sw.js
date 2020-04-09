@@ -35,13 +35,15 @@ async function getLatestCacheInfo() {
 
 function updateToLatestVersion() { //returns promise
   return getLatestCacheInfo().then(function(data) {
-    if (version != data.version) {
-      console.log('New version found, updating...');
-      version = data.version;
-      updateCacheNames();
-      clearOldCaches();
-      extraUrlsToCache = data.extraUrlsToCache
-    }
+    try {
+      if (version != data.version) {
+        console.log('New version found, updating...');
+        version = data.version;
+        updateCacheNames();
+        clearOldCaches();
+        extraUrlsToCache = data.extraUrlsToCache
+      }
+  } catch (e) {console.error(e)}
   });
 }
 

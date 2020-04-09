@@ -1,7 +1,7 @@
 var FETCH_CACHE = 'ag-cache-default';
 var cacheWhitelist = ['ag-cache-default'];//['pages-cache-v1', 'blog-posts-cache-v1'];
 var urlsToCache = ['/'];//,'/piano_icon.png','/more.png','/install.png','/js_synth'];
-var lastVersionCheck = new Date();
+var lastVersionCheck;
 function clearOldCaches() {
   return caches.keys().then(function(cacheNames) {
     return Promise.all(
@@ -14,12 +14,8 @@ function clearOldCaches() {
   })
 }
 
-function checkVersion() {
-  var tmp_lastVersionCheck = lastVersionCheck;
-  lastVersionCheck = new Date;
-  var diff = lastVersionCheck - tmp_lastVersionCheck;
-  if (diff > 60000) {
-    console.log('Checking version...');
+function forceCheckVersion() {
+console.log('Checking version...');
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "/cachewhitelist.txt", true);
     xhr.onload = function (e) {
@@ -36,8 +32,18 @@ function checkVersion() {
       console.error(xhr.statusText);
     };
     xhr.send(null); 
+}
+
+function checkVersion() {
+  if (lastVersionCheck) {
+    var tmp_lastVersionCheck = lastVersionCheck;
+    lastVersionCheck = new Date;
+    var diff = lastVersionCheck - tmp_lastVersionCheck;
+    if (diff > 60000) {forceCheckVersion();}
+  } else {
+    lastVersionCheck = new Date;
+    forceCheckVersion();
   }
-  
 }
 
 self.addEventListener('install', function(event) {

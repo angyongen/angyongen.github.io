@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
 	<title>En's Web Page</title>
-	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
 	<link rel="manifest" href="/site.webmanifest">
 	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 	<meta name="msapplication-TileColor" content="#00aba9">
@@ -31,10 +31,12 @@
 		}
 	</script>
 	<style>
-		body {text-align: center; background-color: honeydew;}
-		.tiles {display: inline-block; background-color: honeydew;}
+		body {text-align: center; background-color: black/*honeydew*/;color: white; overflow-wrap: anywhere;}
+
+		.tiles {display: inline-block; background-color:inherit;}
 		.tiles>* {
 			background-color: white;
+			color:black;
 			display: inline-flex;
 			flex-direction: column;
 			justify-content: space-between;
@@ -44,9 +46,18 @@
 			border:0.2em solid dodgerblue;
 			margin: 1em;
 			vertical-align: bottom;
+			text-decoration:none;
+		}
+		@media only screen and (max-width: 500px) {
+			.tiles>* {
+				margin: 1vw;
+				padding: 1vw;
+			}
 		}
 		img {display: block; margin: auto;}
 		.center {font-family: Calibri; margin: 0 auto;}
+		a>.center {text-decoration:underline; color: blue;}
+		.description { color: black; font-size:0.8em; }
 	</style>
 </head>
 <body>
@@ -54,6 +65,7 @@
 		<a href=./js_synth/>
 			<img alt="piano" src="piano_icon.png" title="piano">
 			<div class="center">Javascript Synthesizer</div>
+			<div class="description">Play piano on your browser!</div>
 		</a>
 
 		<a href=./SG-Bus-Arrival-Time/ style="display:none/*bus arrival time is not working*/">
@@ -76,6 +88,6 @@
 			<div class="center">More items coming soon!</div>
 		</a>
 	</div>
-	<div>Access the repository at <a href="https://github.com/angyongen/angyongen.github.io/">https://github.com/angyongen/angyongen.github.io/</a></div>
+	<div>This webpage is open source! Access the repository at <a href="https://github.com/angyongen/angyongen.github.io/">https://github.com/angyongen/angyongen.github.io/</a></div>
 </body>
 </html>

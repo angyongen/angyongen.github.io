@@ -21,7 +21,7 @@ function clearOldCaches() { //returns promise
 }
 
 async function getLatestCacheInfo() {
-  if (lastVersionCheck && (new Date - lastVersionCheck) < 10000) return version;
+  if (lastVersionCheck && (new Date - lastVersionCheck) < 10000) return {version:version, extraUrlsToCache:extraUrlsToCache};
   lastVersionCheck = new Date;
   var response = await fetch('/cache.txt?time=' + lastVersionCheck.getTime())//prevent disk cache
   if (response.ok) {

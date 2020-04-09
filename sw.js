@@ -28,7 +28,7 @@ function clearOldCaches() {
 
 
 async function getCurrentVersion() {
-  if (lastVersionCheck && (new Date - lastVersionCheck) < 60000) return version;
+  if (lastVersionCheck && (new Date - lastVersionCheck) < 10000) return version;
   var response = await forceCheckVersion()
   if (response.ok) {
     var json = await response.json()

@@ -6,7 +6,26 @@ function updateCacheNames() {
   cacheWhitelist = [version, 'ag-cache-v' + version];//['pages-cache-v1', 'blog-posts-cache-v1'];
 }
 updateCacheNames();
-var urlsToCache = ['/', '/js_synth', '/Bingo-Generator'];//,'/piano_icon.png','/more.png','/install.png','/js_synth'];
+var urlsToCache = [];//essential urls
+var extraUrlsToCache = [
+"/Bingo-Generator/",
+"/Bingo-Generator/bingo1.css",
+"/Bingo-Generator/elements.js",
+"/Bingo-Generator/generator.js",
+"/Bingo-Generator/test.js",
+"/Bingo-Generator/ui.js",
+"/js_scoremaker/analytics.js",
+"/js_scoremaker/index.html",
+"/js_scoremaker/mode2.css",
+"/js_scoremaker/mode2.js",
+"/js_scoremaker/script.js",
+"/js_synth/html5_audio.js",
+"/js_synth/index.html",
+"/js_synth/script.js",
+"/js_synth/settings.js",
+"/js_synth/sounds.js",
+"/js_synth/wav.js",
+"/js_synth/web_audio_api.js"];
 var lastVersionCheck;
 
 function forceCheckVersion() {
@@ -42,10 +61,14 @@ self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(FETCH_CACHE)
       .then(function(cache) {
-        console.log('Opened cache');
+        console.log('Opened cache for essential storage');
         return cache.addAll(urlsToCache);
       })
   );
+  caches.open(FETCH_CACHE).then(function(cache) {
+        console.log('Opened cache for extra storage');
+        cache.addAll(extraUrlsToCache);
+      })
 });
 self.addEventListener('fetch', function(event) {
   event.respondWith(getCurrentVersion().then(function(currentversion) {

@@ -3,7 +3,7 @@ var FETCH_CACHE;
 var cacheWhitelist;
 function updateCacheNames() {
   FETCH_CACHE = 'ag-cache-v' + version;
-  cacheWhitelist = [version, 'ag-cache-v' + version];//['pages-cache-v1', 'blog-posts-cache-v1'];
+  cacheWhitelist = ['ag-cache-v' + version];//['pages-cache-v1', 'blog-posts-cache-v1'];
 }
 updateCacheNames();
 var urlsToCache = [];//essential urls
@@ -18,7 +18,18 @@ function clearOldCaches() { //returns promise
   });
 }
 
+function getMyCacheVersion() {
+    caches.keys().then(function(cacheNames) { //returns promise
+      for (var i = cacheNames.length - 1; i >= 0; i--) {
+        var substrings = cacheNames[i].split("-v");
+        var thisVersion = parseInt(substrings[substrings.length - 1]);
+        if (thisVersion > version) version = thisVersion
+      }
+  });
+}
+
 async function getLatestCacheInfo() {
+  await getMyCacheVersion();
   if (lastVersionCheck && (new Date - lastVersionCheck) < 30000) return {version:version, extraUrlsToCache:extraUrlsToCache};
   lastVersionCheck = new Date;
   var response = await fetch('/cache.txt?time=' + lastVersionCheck.getTime());//prevent disk cache

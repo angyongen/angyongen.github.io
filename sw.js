@@ -1,4 +1,4 @@
-var version = NaN;
+var version = 0;
 var FETCH_CACHE;
 var cacheWhitelist;
 function updateCacheNames() {

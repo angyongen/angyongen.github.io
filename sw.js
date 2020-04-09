@@ -5,12 +5,12 @@ function updateCacheNames() {
   FETCH_CACHE = 'ag-cache-v' + version;
   cacheWhitelist = ['ag-cache-v' + version];//['pages-cache-v1', 'blog-posts-cache-v1'];
 }
+updateCacheNames();
 var urlsToCache = ['/'];//,'/piano_icon.png','/more.png','/install.png','/js_synth'];
 var lastVersionCheck;
 
 function forceCheckVersion() {
     lastVersionCheck = new Date;
-    console.log('Checking version...');
     return fetch('/cachewhitelist.txt?time=' + lastVersionCheck.getTime()) //prevent disk cache
 }
 
@@ -33,6 +33,7 @@ function checkVersion() {
     if (response.ok) {
       var currentversion = parseInt(response.json().version)
       if (version != currentversion) {
+        console.log('New version found, updating...');
         version = currentversion;
         updateCacheNames();
       }

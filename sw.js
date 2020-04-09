@@ -17,7 +17,7 @@ function clearOldCaches() {
 function forceCheckVersion() {
     lastVersionCheck = new Date;
     console.log('Checking version...');
-    fetch('/cachewhitelist.txt?time=' + lastVersionCheck.getTime())
+    fetch('/cachewhitelist.txt?time=' + lastVersionCheck.getTime()) //prevent disk cache
     .then((response) => {
           console.log(response);
       return response.json();

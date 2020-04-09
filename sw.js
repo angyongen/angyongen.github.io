@@ -15,7 +15,7 @@ function clearOldCaches() {
 }
 
 function forceCheckVersion() {
-console.log('Checking version...');
+    console.log('Checking version...');
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "/cachewhitelist.txt", true);
     xhr.onload = function (e) {
@@ -35,6 +35,7 @@ console.log('Checking version...');
 }
 
 function checkVersion() {
+    console.log('test');
   if (lastVersionCheck) {
     var tmp_lastVersionCheck = lastVersionCheck;
     lastVersionCheck = new Date;
@@ -92,11 +93,11 @@ self.addEventListener('fetch', function(event) {
 });
 
 self.addEventListener('activate', function(event) {
+  event.waitUntil(console.log('SW activated'));
+});
+self.addEventListener('activate', function(event) {
   event.waitUntil(clearOldCaches());
 });
 self.addEventListener('activate', event => {
   event.waitUntil(clients.claim());
-});
-self.addEventListener('activate', function(event) {
-  console.log('SW activated');
 });

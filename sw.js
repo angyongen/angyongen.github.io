@@ -6,7 +6,7 @@ function updateCacheNames() {
   cacheWhitelist = [version, 'ag-cache-v' + version];//['pages-cache-v1', 'blog-posts-cache-v1'];
 }
 updateCacheNames();
-var urlsToCache = ['/'];//,'/piano_icon.png','/more.png','/install.png','/js_synth'];
+var urlsToCache = ['/', '/js_synth', '/Bingo-Generator'];//,'/piano_icon.png','/more.png','/install.png','/js_synth'];
 var lastVersionCheck;
 
 function forceCheckVersion() {

@@ -1,9 +1,21 @@
-var FETCH_CACHE = 'ag-cache-default';
-var cacheWhitelist = ['ag-cache-default'];//['pages-cache-v1', 'blog-posts-cache-v1'];
+var version = 0;
+var FETCH_CACHE;
+var cacheWhitelist;
+function updateCacheNames() {
+  FETCH_CACHE = 'ag-cache-v' + version;
+  cacheWhitelist = ['ag-cache-v' + version];//['pages-cache-v1', 'blog-posts-cache-v1'];
+}
 var urlsToCache = ['/'];//,'/piano_icon.png','/more.png','/install.png','/js_synth'];
 var lastVersionCheck;
+
+function forceCheckVersion() {
+    lastVersionCheck = new Date;
+    console.log('Checking version...');
+    return fetch('/cachewhitelist.txt?time=' + lastVersionCheck.getTime()) //prevent disk cache
+}
+
 function clearOldCaches() {
-  return caches.keys().then(function(cacheNames) {
+  caches.keys().then(function(cacheNames) {
     return Promise.all(
       cacheNames.map(function(cacheName) {
         if (cacheWhitelist.indexOf(cacheName) === -1) {
@@ -14,25 +26,18 @@ function clearOldCaches() {
   })
 }
 
-function forceCheckVersion() {
-    lastVersionCheck = new Date;
-    console.log('Checking version...');
-    fetch('/cachewhitelist.txt?time=' + lastVersionCheck.getTime()) //prevent disk cache
-    .then((response) => {
-          console.log(response);
-      return response.json();
-    })
-    .then((data) => {
-      console.log(data);
-    });
-}
 
 function checkVersion() {
-  if (lastVersionCheck) {
-    if ((new Date - lastVersionCheck) > 60000) {forceCheckVersion();}
-  } else {
-    forceCheckVersion();
-  }
+  if (lastVersionCheck && (new Date - lastVersionCheck) < 60000) return;
+  forceCheckVersion().then((response) => {
+    if (response.ok) {
+      var currentversion = parseInt(response.json().version)
+      if (version != currentversion) {
+        version = currentversion;
+        updateCacheNames();
+      }
+    }
+  })
 }
 
 self.addEventListener('install', function(event) {

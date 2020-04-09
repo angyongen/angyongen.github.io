@@ -19,47 +19,36 @@ function clearOldCaches() { //returns promise
 }
 
 function getMyCacheVersion() {
-    caches.keys().then(function(cacheNames) { //returns promise
-      for (var i = cacheNames.length - 1; i >= 0; i--) {
-        var substrings = cacheNames[i].split("-v");
-        var thisVersion = parseInt(substrings[substrings.length - 1]);
-        if (thisVersion > version) version = thisVersion
-      }
+  caches.keys().then(function(cacheNames) { //returns promise
+    for (var i = cacheNames.length - 1; i >= 0; i--) {
+      var substrings = cacheNames[i].split("-v");
+      var thisVersion = parseInt(substrings[substrings.length - 1]);
+      if (thisVersion > version) version = thisVersion
+    }
   });
 }
 
-async function getLatestCacheInfo() {
+async function updateToLatestVersion() {
   await getMyCacheVersion();
-  if (lastVersionCheck && (new Date - lastVersionCheck) < 30000) return {version:version, extraUrlsToCache:extraUrlsToCache};
+  if (lastVersionCheck && (new Date - lastVersionCheck) < 30000) return;
   lastVersionCheck = new Date;
   var response = await fetch('/cache.txt?time=' + lastVersionCheck.getTime());//prevent disk cache
   if (response.ok) {
     var json = await response.json();
-    var newversion = json.version;
+    var newversion = parseInt(json.version);
     var newurls = response.extraUrlsToCache;
-    console.log("latestInfo", json)
-    return {
-      version: (newversion?newversion:version),
-      extraUrlsToCache: (newurls?newurls:extraUrlsToCache)
-    };
+      try {
+        if (version != newversion) {
+          console.log('New version found, updating...');
+          version = newversion;
+          updateCacheNames();
+          clearOldCaches();
+          extraUrlsToCache = data.extraUrlsToCache
+          caches.open(FETCH_CACHE).then(function(cache) {cache.addAll(extraUrlsToCache);})
+          caches.open(FETCH_CACHE).then(function(cache) {return cache.addAll(urlsToCache);});
+        }
+    } catch (e) {console.error(e)}
   }
-}
-
-function updateToLatestVersion() { //returns promise
-  return getLatestCacheInfo().then(function(data) {
-    try {
-      var newversion = parseInt(data.version)
-      if (version != newversion) {
-        console.log('New version found, updating...');
-        version = newversion;
-        updateCacheNames();
-        clearOldCaches();
-        extraUrlsToCache = data.extraUrlsToCache
-        caches.open(FETCH_CACHE).then(function(cache) {cache.addAll(extraUrlsToCache);})
-        caches.open(FETCH_CACHE).then(function(cache) {return cache.addAll(urlsToCache);});
-      }
-  } catch (e) {console.error(e)}
-  });
 }
 
 self.addEventListener('install', function(event) {

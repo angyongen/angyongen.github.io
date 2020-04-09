@@ -35,7 +35,7 @@ async function getLatestCacheInfo() {
   var response = await fetch('/cache.txt?time=' + lastVersionCheck.getTime());//prevent disk cache
   if (response.ok) {
     var json = await response.json();
-    var newversion = parseInt(json.version);
+    var newversion = json.version;
     var newurls = response.extraUrlsToCache;
     console.log("latestInfo", json)
     return {
@@ -48,9 +48,10 @@ async function getLatestCacheInfo() {
 function updateToLatestVersion() { //returns promise
   return getLatestCacheInfo().then(function(data) {
     try {
-      if (version != data.version) {
+      var newversion = parseInt(data.version)
+      if (version != newversion) {
         console.log('New version found, updating...');
-        version = data.version;
+        version = newversion;
         updateCacheNames();
         clearOldCaches();
         extraUrlsToCache = data.extraUrlsToCache

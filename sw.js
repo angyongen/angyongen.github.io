@@ -43,6 +43,8 @@ function updateToLatestVersion() { //returns promise
         updateCacheNames();
         clearOldCaches();
         extraUrlsToCache = data.extraUrlsToCache
+        caches.open(FETCH_CACHE).then(function(cache) {cache.addAll(extraUrlsToCache);})
+        caches.open(FETCH_CACHE).then(function(cache) {return cache.addAll(urlsToCache);});
       }
   } catch (e) {console.error(e)}
   });

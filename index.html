@@ -31,10 +31,11 @@
 		}
 	</script>
 	<style>
-		body {text-align: center; background-color: black/*honeydew*/;color: white; overflow-wrap: anywhere;}
+		body {text-align: center; background-color: #251515/*honeydew*/;color: white; overflow-wrap: anywhere;}
 
 		.tiles {display: inline-block; background-color:inherit;}
 		.tiles>* {
+			box-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
 			background-color: white;
 			color:black;
 			display: inline-flex;
@@ -62,6 +63,10 @@
 		.center {font-family: Calibri; margin: 0 auto; }
 		a[href^="."]>.center {text-decoration:underline; color: blue;}
 		a[href="#"]>.center {text-decoration:underline; color: forestgreen;}
+		a:link {color: yellow;}
+		a:visited {color: cyan;}
+		a:hover {color: lightgreen;}
+		a:active {color: hotpink;} 
 		.description { color: black; font-size:0.8em; }
 	</style>
 </head>
@@ -94,6 +99,6 @@
 			<div class="center">More items coming soon!</div>
 		</a>
 	</div>
-	<div>This webpage is open source! Access the repository at <a href="https://github.com/angyongen/angyongen.github.io/">https://github.com/angyongen/angyongen.github.io/</a></div>
+	<div style="text-shadow: 0 0 1px white;">This webpage is open source! Access the repository at <a href="https://github.com/angyongen/angyongen.github.io/">https://github.com/angyongen/angyongen.github.io/</a></div>
 </body>
 </html>

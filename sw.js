@@ -74,28 +74,28 @@ self.addEventListener('install', function(event) {
 
 self.addEventListener('fetch', function(event) {
 	event.respondWith(updateToLatestVersion().then(function() {
-		return fetch(event.request).then(function (fetchresponse) {
-			console.log(fetchresponse)
-			if(!fetchresponse || fetchresponse.status !== 200 || fetchresponse.type !== 'basic') return fetchresponse;
-			// IMPORTANT: Clone the response. A response is a stream and because we want the browser to consume the response
-			// as well as the cache consuming the response, we need to clone it so we have two streams.
-			var responseToCache = fetchresponse.clone();
-			console.log(responseToCache)
-			caches.open(FETCH_CACHE).then(function(cache) {
-				cache.put(event.request, responseToCache);
-			})
-			return fetchresponse;
-		}).catch(function(errorresponse) {
-			console.log(errorresponse)
-			return caches.open(FETCH_CACHE).then(function(cache) {
-				return cache.match(event.request).then(function(cacheresponse) {
-					if (cacheresponse) return cacheresponse; // Cache hit - fetch error - return cache
-				})
-			})
-				
-		});
-    }))
-})
+		return caches.open(FETCH_CACHE).then(function(cache) {
+			return cache.match(event.request).then(function(cacheresponse) {
+				if (cacheresponse) {
+					setTimeout(function() {cache.add(event.request);}, 0)
+					return cacheresponse; 
+				} else {
+					return fetch(event.request).then(function (fetchresponse) {
+					console.log(fetchresponse)
+					if(!fetchresponse || fetchresponse.status !== 200 || fetchresponse.type !== 'basic') return fetchresponse;
+						// IMPORTANT: Clone the response. A response is a stream and because we want the browser to consume the response
+						// as well as the cache consuming the response, we need to clone it so we have two streams.
+						var responseToCache = fetchresponse.clone();
+						caches.open(FETCH_CACHE).then(function(cache) {
+							cache.put(event.request, responseToCache);
+						})
+						return fetchresponse;
+					})
+				}
+			})//match
+		});//open
+    }))//respondwith
+})//fetch
       
 
 

@@ -38,7 +38,7 @@ async function updateToLatestVersion() {
 	fetch('/cache.txt').then(function (response){
 		if (response.ok) {
 			try {
-				var json = await response.json();
+				var json = response.json();
 				var newversion = parseInt(json.version);
 				var newurls = response.extraUrlsToCache;
 				if (version > newversion) {

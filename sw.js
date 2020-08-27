@@ -1,4 +1,4 @@
-var version = 1;
+var version = 3;
 var FETCH_CACHE;
 var cacheWhitelist;
 function updateCacheNames() {
@@ -61,21 +61,27 @@ self.addEventListener('install', function(event) {
 });
 
 self.addEventListener('fetch', function(event) {
-  event.respondWith(updateToLatestVersion().then(function() {
-    return caches.match(event.request).then(function(response) {
-      if (response) return response; // Cache hit - return response
-      return fetch(event.request).then(function (response) {
-        // Check if we received a valid response
-        if(!response || response.status !== 200 || response.type !== 'basic') return response;
-        // IMPORTANT: Clone the response. A response is a stream and because we want the browser to consume the response
-        // as well as the cache consuming the response, we need to clone it so we have two streams.
-        var responseToCache = response.clone();
-        caches.open(FETCH_CACHE).then(function(cache) {cache.put(event.request, responseToCache);});
-        return response;
-      });
-    });
-  }));
-});
+	event.respondWith(updateToLatestVersion().then(function() {
+		caches.open(FETCH_CACHE).then(function(cache) {
+			return cache.match(event.request).then(function(cacheresponse) {
+				return fetch(event.request).then(function (fetchresponse) {
+					if(!fetchresponse || fetchresponse.status !== 200 || fetchresponse.type !== 'basic') return fetchresponse;
+					// IMPORTANT: Clone the response. A response is a stream and because we want the browser to consume the response
+					// as well as the cache consuming the response, we need to clone it so we have two streams.
+					var responseToCache = fetchresponse.clone();
+					{cache.put(event.request, responseToCache);};
+					return fetchresponse;
+				}).catch(function(err) {
+					if (cacheresponse) {
+						return response; // Cache hit - fetch error - return cache
+					}
+				});
+			})
+		})
+    })
+})
+      
+
 
 self.addEventListener('activate', function(event) {
   event.waitUntil(clearOldCaches());

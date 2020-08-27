@@ -77,7 +77,7 @@ self.addEventListener('fetch', function(event) {
 		return caches.open(FETCH_CACHE).then(function(cache) {
 			return cache.match(event.request).then(function(cacheresponse) {
 				if (cacheresponse) {
-					setTimeout(function() {cache.add(event.request);}, 0)
+					setTimeout(function() {try {cache.add(event.request)} catch(e) {console.log(e)}}, 0)
 					return cacheresponse; 
 				} else {
 					return fetch(event.request).then(function (fetchresponse) {

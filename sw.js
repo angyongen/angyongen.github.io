@@ -74,9 +74,11 @@ self.addEventListener('fetch', function(event) {
 					var responseToCache = fetchresponse.clone();
 					{cache.put(event.request, responseToCache);};
 					return fetchresponse;
-				}).catch(function(err) {
+				}).catch(function(errorresponse) {
 					if (cacheresponse) {
-						return response; // Cache hit - fetch error - return cache
+						return cacheresponse; // Cache hit - fetch error - return cache
+					} else {
+						return errorresponse
 					}
 				});
 			})

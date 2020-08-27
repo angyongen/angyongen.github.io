@@ -1,4 +1,5 @@
 var version = 0; //starting cache version 0, should update with cache.txt
+var cache_delay = 10;
 var FETCH_CACHE;
 var cacheWhitelist;
 function updateCacheNames() {
@@ -77,7 +78,7 @@ self.addEventListener('fetch', function(event) {
 		return caches.open(FETCH_CACHE).then(function(cache) {
 			return cache.match(event.request).then(function(cacheresponse) {
 				if (cacheresponse) {
-					setTimeout(function() {try {cache.add(event.request)} catch(e) {console.log(e)}}, 0)
+					setTimeout(function() {try {cache.add(event.request)} catch(e) {console.log(e)}}, cache_delay)
 					return cacheresponse; 
 				} else {
 					return fetch(event.request).then(function (fetchresponse) {

@@ -82,6 +82,7 @@ self.addEventListener('fetch', function(event) {
 			cache.put(event.request, responseToCache);
 			return fetchresponse;
 		}).catch(function(errorresponse) {
+			console.log(errorresponse)
 			return caches.open(FETCH_CACHE).then(function(cache) {
 				return cache.match(event.request).then(function(cacheresponse) {
 					if (cacheresponse) return cacheresponse; // Cache hit - fetch error - return cache

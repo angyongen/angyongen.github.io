@@ -33,28 +33,32 @@ async function updateToLatestVersion() {
 	if (lastVersionCheck && (new Date - lastVersionCheck) < 30000) return;
 	lastVersionCheck = new Date;
 	console.log('Fetching cache.txt');
-	var response = await fetch('/cache.txt?time=' + lastVersionCheck.getTime());//prevent disk cache
-	if (response.ok) {
-		try {
-			var json = await response.json();
-			var newversion = parseInt(json.version);
-			var newurls = response.extraUrlsToCache;
-			if (version > newversion) {
-				console.log('WARNING: current cache version greater, not updating.');
-			}
-			if (version < newversion) {
-				console.log('New cache version found, updating...');
-				updateCacheNames();
-				clearOldCaches();
-				extraUrlsToCache = json.extraUrlsToCache
-				caches.open(FETCH_CACHE).then(function(cache) {
-					cache.addAll(extraUrlsToCache);
-					cache.addAll(urlsToCache);
-				})
-				version = newversion;
-			}
-		} catch (e) {console.error(e)}
-	}
+	//?time=' + lastVersionCheck.getTime()
+	// fetch should prioritise new version.
+	fetch('/cache.txt').then(function (response){
+		if (response.ok) {
+			try {
+				var json = await response.json();
+				var newversion = parseInt(json.version);
+				var newurls = response.extraUrlsToCache;
+				if (version > newversion) {
+					console.log('WARNING: current cache version greater, not updating.');
+				}
+				if (version < newversion) {
+					console.log('New cache version found, updating...');
+					updateCacheNames();
+					clearOldCaches();
+					extraUrlsToCache = json.extraUrlsToCache
+					caches.open(FETCH_CACHE).then(function(cache) {
+						cache.addAll(extraUrlsToCache);
+						cache.addAll(urlsToCache);
+					})
+					version = newversion;
+				}
+			} catch (e) {console.error(e)}
+		}
+	});
+	
 }
 
 self.addEventListener('install', function(event) {

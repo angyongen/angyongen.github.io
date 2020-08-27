@@ -32,6 +32,7 @@ async function updateToLatestVersion() {
 	await getMyCacheVersion();
 	if (lastVersionCheck && (new Date - lastVersionCheck) < 30000) return;
 	lastVersionCheck = new Date;
+	console.log('Fetching cache.txt');
 	var response = await fetch('/cache.txt?time=' + lastVersionCheck.getTime());//prevent disk cache
 	if (response.ok) {
 		try {

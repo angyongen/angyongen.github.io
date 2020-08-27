@@ -1,4 +1,4 @@
-{ "version":"2", "extraUrlsToCache" : [
+{ "version":"3", "extraUrlsToCache" : [
 "/Bingo-Generator/",
 "/Bingo-Generator/bingo1.css",
 "/Bingo-Generator/elements.js",

@@ -38,10 +38,10 @@ async function updateToLatestVersion() {
     var newversion = parseInt(json.version);
     var newurls = response.extraUrlsToCache;
       try {
-        if (version < newversion) {
+        if (version > newversion) {
           console.log('WARNING: current sw version greater than cache.txt version');
         }
-        if (version > newversion) {
+        if (version < newversion) {
           console.log('New version found, updating...');
           version = newversion;
           updateCacheNames();

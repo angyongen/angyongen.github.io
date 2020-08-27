@@ -75,6 +75,8 @@ self.addEventListener('fetch', function(event) {
 					{cache.put(event.request, responseToCache);};
 					return fetchresponse;
 				}).catch(function(errorresponse) {
+					console.log(errorresponse)
+					console.log(cacheresponse)
 					if (cacheresponse) {
 						return cacheresponse; // Cache hit - fetch error - return cache
 					} else {

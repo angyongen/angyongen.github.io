@@ -75,10 +75,12 @@ self.addEventListener('install', function(event) {
 self.addEventListener('fetch', function(event) {
 	event.respondWith(updateToLatestVersion().then(function() {
 		return fetch(event.request).then(function (fetchresponse) {
+			console.log(fetchresponse)
 			if(!fetchresponse || fetchresponse.status !== 200 || fetchresponse.type !== 'basic') return fetchresponse;
 			// IMPORTANT: Clone the response. A response is a stream and because we want the browser to consume the response
 			// as well as the cache consuming the response, we need to clone it so we have two streams.
 			var responseToCache = fetchresponse.clone();
+			console.log(responseToCache)
 			return caches.open(FETCH_CACHE).then(function(cache) {
 				cache.put(event.request, responseToCache);
 			})

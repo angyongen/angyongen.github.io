@@ -38,12 +38,15 @@ async function updateToLatestVersion() {
     var newversion = parseInt(json.version);
     var newurls = response.extraUrlsToCache;
       try {
-        if (version != newversion) {
+        if (version < newversion) {
+          console.log('WARNING: current sw version greater than cache.txt version');
+        }
+        if (version > newversion) {
           console.log('New version found, updating...');
           version = newversion;
           updateCacheNames();
           clearOldCaches();
-          extraUrlsToCache = data.extraUrlsToCache
+          extraUrlsToCache = json.extraUrlsToCache
           caches.open(FETCH_CACHE).then(function(cache) {cache.addAll(extraUrlsToCache);})
           caches.open(FETCH_CACHE).then(function(cache) {return cache.addAll(urlsToCache);});
         }

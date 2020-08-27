@@ -65,7 +65,7 @@ self.addEventListener('install', function(event) {
 
 self.addEventListener('fetch', function(event) {
 	event.respondWith(updateToLatestVersion().then(function() {
-		caches.open(FETCH_CACHE).then(function(cache) {
+		return caches.open(FETCH_CACHE).then(function(cache) {
 			return cache.match(event.request).then(function(cacheresponse) {
 				return fetch(event.request).then(function (fetchresponse) {
 					if(!fetchresponse || fetchresponse.status !== 200 || fetchresponse.type !== 'basic') return fetchresponse;

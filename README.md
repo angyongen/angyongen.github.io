@@ -39,6 +39,9 @@ Syntax highlighted code block
 ### Useful links
 
 [This page's GitHub Editor](https://github.com/angyongen/angyongen.github.io/edit/master/README.md)
-[GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+
+[GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/)
+
 [Github Pages Documentation](https://help.github.com/categories/github-pages-basics/)
+
 [Github Support](https://github.com/contact)

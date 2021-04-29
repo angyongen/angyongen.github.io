@@ -9,8 +9,10 @@ Normally, whenever you commit to GitHub Pages repositories, GitHub Pages will ru
 
 - https://github.com/angyongen/js_synth
 - https://github.com/angyongen/js_scoremaker
-- https://github.com/angyongen/SG-Bus-Arrival-Time
 - https://github.com/angyongen/Bingo-Generator
+- https://github.com/angyongen/engacad
+- https://github.com/angyongen/portfolio
+- https://github.com/angyongen/SG-Bus-Arrival-Time (note that this is a dead project)
 
 ### Markdown
 
@@ -34,12 +36,9 @@ Syntax highlighted code block
 [Link](url) and ![Image](src)
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
 
-### Jekyll Themes
+### Useful links
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/angyongen/angyongen.github.io/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+[GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+[Github Pages Documentation](https://help.github.com/categories/github-pages-basics/)
+[Github Support](https://github.com/contact)
